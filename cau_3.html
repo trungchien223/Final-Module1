@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Quản lý Sổ Tiết Kiệm</title>
+</head>
+<body>
+<button onclick="themSoTietKiem()">Thêm Sổ Tiết Kiệm</button>
+<button onclick="xoaSoTietKiem()">Xóa Sổ Tiết Kiệm</button>
+<div id="input"></div>
+
+<script>
+    class SoTietKiem {
+        constructor(maSo, loaiTietKiem, hoTenKhachHang, chungMinhNhanDan, soTienGui) {
+            this.maSo = maSo;
+            this.loaiTietKiem = loaiTietKiem;
+            this.hoTenKhachHang = hoTenKhachHang;
+            this.chungMinhNhanDan = chungMinhNhanDan;
+            this.soTienGui = soTienGui;
+        }
+
+        setMaSo(maSo) {
+            if (maSo.length <= 5) {
+                this.maSo = maSo;
+            } else {
+                console.log("Mã số tối đa 5 ký tự");
+            }
+        }
+
+        getMaSo() {
+            return this.maSo;
+        }
+
+        setLoaiTietKiem(loaiTietKiem) {
+            if (loaiTietKiem.length <= 10) {
+                this.loaiTietKiem = loaiTietKiem;
+            } else {
+                console.log("Loại tiết kiệm tối đa 10 ký tự");
+            }
+        }
+
+        getLoaiTietKiem() {
+            return this.loaiTietKiem;
+        }
+
+        setHoTenKhachHang(hoTenKhachHang) {
+            if (hoTenKhachHang.length <= 30) {
+                this.hoTenKhachHang = hoTenKhachHang;
+            } else {
+                console.log("Họ tên khách hàng tối đa 30 ký tự");
+            }
+        }
+
+        getHoTenKhachHang() {
+            return this.hoTenKhachHang;
+        }
+
+        setChungMinhNhanDan(chungMinhNhanDan) {
+            this.chungMinhNhanDan = chungMinhNhanDan;
+        }
+
+        getChungMinhNhanDan() {
+            return this.chungMinhNhanDan;
+        }
+
+        setSoTienGui(soTienGui) {
+            if (typeof soTienGui === 'number' && soTienGui > 0) {
+                this.soTienGui = soTienGui;
+            } else {
+                console.log("Số tiền gửi phải là số dương");
+            }
+        }
+
+        getSoTienGui() {
+            return this.soTienGui;
+        }
+
+        toString() {
+            return `Mã số: ${this.maSo}, Loại tiết kiệm: ${this.loaiTietKiem}, Họ tên khách hàng: ${this.hoTenKhachHang}, Chứng minh nhân dân: ${this.chungMinhNhanDan}, Số tiền gửi: ${this.soTienGui}`;
+        }
+    }
+
+    let soTietKiemList = [];
+
+    function themSoTietKiem() {
+        let maSo = prompt("Nhập mã số sổ tiết kiệm (tối đa 5 ký tự):");
+        while (maSo.length > 5) {
+            maSo = prompt("Mã số tối đa 5 ký tự. Nhập lại mã số:");
+        }
+
+        let loaiTietKiem = prompt("Nhập loại tiết kiệm (tối đa 10 ký tự):");
+        while (loaiTietKiem.length > 10) {
+            loaiTietKiem = prompt("Loại tiết kiệm tối đa 10 ký tự. Nhập lại loại tiết kiệm:");
+        }
+
+        let hoTenKhachHang = prompt("Nhập họ tên khách hàng (tối đa 30 ký tự)");
+        while (hoTenKhachHang.length > 30) {
+            hoTenKhachHang = prompt("Họ tên khách hàng tối đa 30 ký tự. Nhập lại họ tên");
+        }
+
+        let chungMinhNhanDan = prompt("Nhập chứng minh nhân dân");
+
+        let soTienGui = parseFloat(prompt("Nhập số tiền gửi"));
+        while (isNaN(soTienGui) || soTienGui <= 0) {
+            soTienGui = parseFloat(prompt("Số tiền gửi phải là số dương. Nhập lại số tiền gửi"));
+        }
+        let soTietKiem = new SoTietKiem(maSo, loaiTietKiem, hoTenKhachHang, chungMinhNhanDan, soTienGui);
+        soTietKiemList.push(soTietKiem);
+        displaySoTietKiem();
+    }
+    function xoaSoTietKiem() {
+        let maSoXoa = prompt("Nhập mã số sổ tiết kiệm cần xóa");
+        let index = -1;
+        for (let i = 0; i < soTietKiemList.length; i++) {
+            if (soTietKiemList[i].getMaSo() === maSoXoa) {
+                index = i;
+                break;
+            }
+        }
+        if (index !== -1) {
+            let newSoTietKiemList = [];
+            for (let i = 0; i < soTietKiemList.length; i++) {
+                if (i !== index) {
+                    newSoTietKiemList.push(soTietKiemList[i]);
+                }
+            }
+            soTietKiemList = newSoTietKiemList;
+            alert("Sổ tiết kiệm đã được xóa");
+        } else {
+            alert("Không tìm thấy sổ tiết kiệm với mã số " + maSoXoa);
+        }
+        displaySoTietKiem();
+    }
+
+    function displaySoTietKiem() {
+        let displayString = "<h2>Danh sách Sổ Tiết Kiệm</h2>";
+        displayString += `
+    <table border="1">
+        <tr>
+            <th>Mã Số</th>
+            <th>Loại Tiết Kiệm</th>
+            <th>Họ Tên Khách Hàng</th>
+            <th>Chứng Minh Nhân Dân</th>
+            <th>Số Tiền Gửi</th>
+        </tr>
+    `;
+
+        for (let i = 0; i < soTietKiemList.length; i++) {
+            displayString += `
+        <tr>
+            <td>${soTietKiemList[i].getMaSo()}</td>
+            <td>${soTietKiemList[i].getLoaiTietKiem()}</td>
+            <td>${soTietKiemList[i].getHoTenKhachHang()}</td>
+            <td>${soTietKiemList[i].getChungMinhNhanDan()}</td>
+            <td>${soTietKiemList[i].getSoTienGui()}</td>
+        </tr>
+        `;
+        }
+
+        displayString += "</table>";
+        document.getElementById("input").innerHTML = displayString;
+    }
+
+    displaySoTietKiem();
+
+</script>
+</body>
+</html>

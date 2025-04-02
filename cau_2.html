@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    function kiemTraBangNhau() {
+        let phanSo1 = "1/2";
+        let phanSo2 = "2/4";
+        let a1 = "", b1 = "";
+        let check = true;
+        for (let i = 0; i < phanSo1.length; i++) {
+            if (phanSo1[i] === '/') {
+                check = false;
+            } else {
+                if (check) {
+                    a1 += phanSo1[i];
+                } else {
+                    b1 += phanSo1[i];
+                }
+            }
+        }
+        let a2 = "", b2 = "";
+        check = true;
+        for (let i = 0; i < phanSo2.length; i++) {
+            if (phanSo2[i] === '/') {
+                check = false;
+            } else {
+                if (check) {
+                    a2 += phanSo2[i];
+                } else {
+                    b2 += phanSo2[i];
+                }
+            }
+        }
+        if (a1 * b2 === a2 * b1) {
+            alert("Hai phân số bằng nhau");
+        } else {
+            alert("Hai phân số không bằng nhau");
+        }
+    }
+    kiemTraBangNhau()
+</script>
+</body>
+</html>
